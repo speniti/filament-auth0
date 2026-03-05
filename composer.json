@@ -1,0 +1,69 @@
+{
+  "name": "speniti/filament-auth0",
+  "description": "This package provides a set of tools for integrating Auth0 within the Filament ecosystem.",
+  "type": "library",
+  "require": {
+    "php": "^8.4",
+    "filament/support": "^4.0",
+    "firebase/php-jwt": "^6.11"
+  },
+  "require-dev": {
+    "orchestra/testbench": "^10.0",
+    "laravel/pint": "^1.25",
+    "larastan/larastan": "^3.8",
+    "filament/filament": "^4.0",
+    "pestphp/pest": "^4.1",
+    "pestphp/pest-plugin-livewire": "^4.0",
+    "laravel/boost": "^1.8",
+    "pestphp/pest-plugin-laravel": "^4.0",
+    "phpseclib/phpseclib": "^3.0"
+  },
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "Peniti\\FilamentAuth0\\": "src/"
+    }
+  },
+  "authors": [
+    {
+      "name": "Simone Peniti",
+      "email": "simone@peniti.it"
+    }
+  ],
+  "minimum-stability": "stable",
+  "config": {
+    "allow-plugins": {
+      "pestphp/pest-plugin": true
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "App\\": "workbench/app/",
+      "Database\\Factories\\": "workbench/database/factories/",
+      "Database\\Seeders\\": "workbench/database/seeders/",
+      "Tests\\": "tests/"
+    }
+  },
+  "scripts": {
+    "post-autoload-dump": [
+      "@clear",
+      "@prepare"
+    ],
+    "clear": "@php vendor/bin/testbench package:purge-skeleton --ansi",
+    "prepare": "@php vendor/bin/testbench package:discover --ansi",
+    "build": "@php vendor/bin/testbench workbench:build --ansi",
+    "serve": [
+      "Composer\\Config::disableProcessTimeout",
+      "@build",
+      "@php vendor/bin/testbench serve --ansi"
+    ],
+    "lint": [
+      "@php vendor/bin/pint --ansi",
+      "@php vendor/bin/phpstan analyse -vvv --ansi --xdebug"
+    ],
+    "test": [
+      "@clear",
+      "@php vendor/bin/pest --coverage"
+    ]
+  }
+}

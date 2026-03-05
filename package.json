@@ -1,0 +1,20 @@
+{
+  "name": "@peniti/filament-auth0",
+  "description": "Auth0 integration for Filament panels ",
+  "type": "module",
+  "scripts": {
+  },
+  "keywords": [
+    "filament",
+    "auth0"
+  ],
+  "author": {
+    "name": "Simone Peniti",
+    "email": "simone@peniti.it"
+  },
+  "license": "ISC",
+  "devDependencies": {
+    "@shufo/prettier-plugin-blade": "^1.16.1",
+    "prettier": "^3.6.2"
+  }
+}
