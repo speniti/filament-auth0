@@ -34,7 +34,7 @@ class CallbackController extends Controller
         private readonly DecodeIdToken $decoder,
         #[Config('filament-auth0.client_id')] private readonly string $clientId,
         #[Config('filament-auth0.client_secret')] private readonly string $clientSecret,
-        #[Config('filament-auth0.home')] private readonly string $home,
+        #[Config('filament-auth0.routes.home')] private readonly string $home,
         #[Config('filament-auth0.http.timeout')] private readonly int $timeout,
         #[Config('filament-auth0.http.retry_times')] private readonly int $retryTimes,
         #[Config('filament-auth0.http.retry_sleep')] private readonly int $retrySleep,

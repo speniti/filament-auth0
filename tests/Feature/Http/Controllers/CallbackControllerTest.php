@@ -29,7 +29,7 @@ describe(CallbackController::class, function () {
 
         /** @noinspection PhpUnhandledExceptionInspection */
         get(action(CallbackController::class, compact('code', 'state')))
-            ->assertRedirect(Config::string('filament-auth0.home'))
+            ->assertRedirect(Config::string('filament-auth0.routes.home'))
             ->assertSessionHasNoErrors();
 
         expect(auth()->check())->toBeTrue()

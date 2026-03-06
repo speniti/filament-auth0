@@ -42,6 +42,7 @@ class ProvisionsUserTest implements ProvisionsUser
 
         /**
          * @noinspection PhpUnhandledExceptionInspection
+         * @noinspection LaravelEloquentGuardedAttributeAssignmentInspection
          *
          * @var Authenticatable
          */
@@ -63,6 +64,7 @@ describe('User provisioning', function () {
         $sub = 'auth0|'.fake()->md5();
 
         session(['auth0_state' => $state = fake()->md5()]);
+        /** @noinspection PhpUnhandledExceptionInspection */
         $idToken = TestJwt::createIdToken(compact('sub'));
 
         DiscoveryEndpoint::fake();
@@ -73,7 +75,7 @@ describe('User provisioning', function () {
 
         /** @noinspection PhpUnhandledExceptionInspection */
         get(action(CallbackController::class, compact('code', 'state')))
-            ->assertRedirect(Config::string('filament-auth0.home'))
+            ->assertRedirect(Config::string('filament-auth0.routes.home'))
             ->assertSessionHasNoErrors();
 
         assertDatabaseHas(User::class, ['auth0_sub' => $sub]);
