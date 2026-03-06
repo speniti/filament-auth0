@@ -7,6 +7,7 @@ namespace Peniti\FilamentAuth0\Http\Controllers;
 use function action;
 
 use Illuminate\Container\Attributes\Config;
+use Illuminate\Contracts\Cache\LockTimeoutException;
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\Client\Response;
 use Illuminate\Http\RedirectResponse;
@@ -40,6 +41,7 @@ class CallbackController extends Controller
         #[Config('filament-auth0.http.retry_sleep')] private readonly int $retrySleep,
     ) {}
 
+    /** @throws LockTimeoutException */
     public function __invoke(CallbackRequest $request): RedirectResponse
     {
         $response = $this->exchange($request->query('code'));
@@ -55,7 +57,11 @@ class CallbackController extends Controller
         return redirect()->intended($this->home);
     }
 
-    /** @return TokenExchangeResponse */
+    /**
+     * @return TokenExchangeResponse
+     *
+     * @throws LockTimeoutException
+     */
     public function exchange(string $code): array
     {
         try {

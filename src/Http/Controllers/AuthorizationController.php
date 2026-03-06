@@ -10,6 +10,7 @@ use function hash;
 use function http_build_query;
 
 use Illuminate\Container\Attributes\Config;
+use Illuminate\Contracts\Cache\LockTimeoutException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Controller;
 use Peniti\FilamentAuth0\OpenID\CachedMetadata;
@@ -28,7 +29,7 @@ class AuthorizationController extends Controller
         #[Config('filament-auth0.scope')] private readonly string $scope,
     ) {}
 
-    /** @throws RandomException */
+    /** @throws RandomException|LockTimeoutException */
     public function __invoke(): RedirectResponse
     {
         $endpoint = $this->metadata->getEndpoint('authorization');

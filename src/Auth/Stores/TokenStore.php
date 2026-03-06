@@ -74,7 +74,7 @@ abstract readonly class TokenStore implements Auth0TokenStore
         event(new Auth0TokenRefreshed($identifier, $tokens));
     }
 
-    /** @param  TokenExchangeResponse  $tokens  */
+    /** @param  TokenExchangeResponse  $tokens */
     public function save(array $tokens, int|string|null $identifier = null): void
     {
         $expiresIn = (int) $tokens['expires_in'];
