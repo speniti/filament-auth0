@@ -15,8 +15,6 @@ use Illuminate\View\ComponentAttributeBag;
 use Peniti\FilamentAuth0\Actions\ValidateMetadata;
 use Peniti\FilamentAuth0\Auth\Auth0TokenManager;
 use Peniti\FilamentAuth0\Auth\Auth0UserProvider;
-use Peniti\FilamentAuth0\Commands\Auth0Healthcheck;
-use Peniti\FilamentAuth0\Commands\ClearAuth0Tokens;
 use Peniti\FilamentAuth0\Contracts\Auth0TokenStore;
 use Peniti\FilamentAuth0\Http\Middleware\RefreshAuth0Token;
 use Peniti\FilamentAuth0\Jwks\CachedKeySet;
@@ -56,13 +54,6 @@ class Auth0ServiceProvider extends ServiceProvider
                 'attributes' => new ComponentAttributeBag(),
             ]),
         ]);
-
-        if ($this->app->runningInConsole()) {
-            $this->commands([
-                ClearAuth0Tokens::class,
-                Auth0Healthcheck::class,
-            ]);
-        }
     }
 
     public function register(): void
@@ -70,7 +61,8 @@ class Auth0ServiceProvider extends ServiceProvider
         $this->app->singleton(Auth0TokenManager::class);
 
         $this->app->bind(Auth0TokenStore::class, function (Application $app): Auth0TokenStore {
-            return $app->make(Auth0TokenManager::class)->store();
+            /** @var Auth0TokenStore */
+            return $app->make(Auth0TokenManager::class)->driver();
         });
 
         $this->app->singleton(CachedMetadata::class, function (Application $app): CachedMetadata {

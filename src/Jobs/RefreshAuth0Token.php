@@ -21,9 +21,11 @@ class RefreshAuth0Token implements ShouldQueue
     public int $tries = 3;
 
     public function __construct(
-        private readonly int|string $userId,
-        #[Config('filament-auth0.queues.token_refresh')] public ?string $queue = null,
-    ) {}
+        private readonly int|string|null $userId,
+        #[Config('filament-auth0.queues.token_refresh')] ?string $queue = null,
+    ) {
+        $this->queue = $queue;
+    }
 
     public function failed(Throwable $exception): void
     {

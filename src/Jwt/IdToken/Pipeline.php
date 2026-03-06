@@ -14,6 +14,7 @@ use Peniti\FilamentAuth0\Jwt\IdToken\Stages\ValidateClaims;
 
 class Pipeline extends BasePipeline
 {
+    /** @var class-string[] */
     protected $pipes = [
         ValidateClaims::class,
     ];
@@ -26,6 +27,7 @@ class Pipeline extends BasePipeline
             $pipeline->pipe(app(ProvisionsUser::class));
         }
 
+        /** @var Authenticatable */
         return $pipeline->send($token)->thenReturn();
     }
 }

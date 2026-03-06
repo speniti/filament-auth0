@@ -45,7 +45,7 @@ readonly class CachedMetadata implements ArrayAccess
      *
      * @param  'authorization'|'token'|'device_authorization'|'userinfo'|'mfa_challenge'|'registration'|'revocation'  $endpoint
      *
-     * @throws EndpointNotFoundException
+     * @throws EndpointNotFoundException|LockTimeoutException
      */
     public function getEndpoint(string $endpoint): string
     {
@@ -59,11 +59,13 @@ readonly class CachedMetadata implements ArrayAccess
         return $endpoint;
     }
 
+    /** @throws LockTimeoutException */
     public function offsetExists(mixed $offset): bool
     {
         return data_has($this->metadata(), $offset);
     }
 
+    /** @throws LockTimeoutException */
     public function offsetGet(mixed $offset): mixed
     {
         if (! $key = data_get($this->metadata(), $offset)) {
@@ -109,6 +111,7 @@ readonly class CachedMetadata implements ArrayAccess
         };
     }
 
+    /** @throws LockTimeoutException */
     private function fresh(mixed $offset): mixed
     {
         Cache::forget($this->key());

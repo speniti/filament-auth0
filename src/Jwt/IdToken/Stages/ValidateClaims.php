@@ -18,6 +18,7 @@ readonly class ValidateClaims
         #[Config('filament-auth0.domain')] private string $domain
     ) {}
 
+    /** @param  Closure(IdToken): Authenticatable  $next */
     public function handle(IdToken $idToken, Closure $next): Authenticatable
     {
         Validator::make($idToken->toArray(), [

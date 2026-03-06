@@ -6,9 +6,9 @@ namespace Peniti\FilamentAuth0\Events;
 
 use Throwable;
 
-class Auth0AuthenticationFailed
+readonly class Auth0AuthenticationFailed
 {
     public function __construct(
-        public readonly Throwable $exception
+        public Throwable $exception
     ) {}
 }

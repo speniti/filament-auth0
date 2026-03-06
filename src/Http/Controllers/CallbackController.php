@@ -47,10 +47,10 @@ class CallbackController extends Controller
         $token = $this->decoder->decode($response['id_token']);
         Session::put('id_token', (string) $token);
 
-        Auth::login(Pipeline::process($token));
+        Auth::login($user = Pipeline::process($token));
         Auth0Tokens::save($response);
 
-        event(new Auth0Authenticated($token, auth()->user()));
+        event(new Auth0Authenticated($token, $user));
 
         return redirect()->intended($this->home);
     }
@@ -73,21 +73,21 @@ class CallbackController extends Controller
                     'redirect_uri' => action(self::class),
                     'code_verifier' => session('auth0_code_verifier'),
                 ]);
+
+            if ($response->failed()) {
+                if ($response->clientError()) {
+                    throw InvalidAuthorizationCodeException::create($response);
+                }
+
+                throw IdentityProviderConnectionException::create($response);
+            }
+
+            /** @var TokenExchangeResponse */
+            return $response->json();
         } catch (ConnectionException) {
             throw IdentityProviderConnectionException::create();
         } finally {
             Session::forget(['auth0_code_verifier', 'auth0_state']);
         }
-
-        if ($response->failed()) {
-            if ($response->clientError()) {
-                throw InvalidAuthorizationCodeException::create($response);
-            }
-
-            throw IdentityProviderConnectionException::create($response);
-        }
-
-        /** @var TokenExchangeResponse */
-        return $response->json();
     }
 }

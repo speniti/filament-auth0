@@ -15,6 +15,7 @@ class CallbackRequest extends FormRequest
     /** @return array<string, mixed> */
     public function rules(): array
     {
+        /** @var ?string $state */
         $state = session('auth0_state');
 
         return [
