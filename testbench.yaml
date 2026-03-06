@@ -1,0 +1,41 @@
+laravel: '@testbench'
+
+providers:
+  - Peniti\FilamentAuth0\Auth0ServiceProvider
+  - App\Providers\Filament\AdminPanelProvider
+
+migrations:
+  - workbench/database/migrations
+
+seeders:
+  - Database\Seeders\DatabaseSeeder
+
+workbench:
+  install: true
+  health: false
+  discovers:
+    web: true
+    api: false
+    commands: false
+    components: false
+    views: true
+  build:
+    - asset-publish
+    - create-sqlite-db
+    - db-wipe
+    - migrate-fresh
+    - filament:assets
+  assets:
+    - filament-auth0-config
+  sync:
+    - from: app
+      to: workbench/app
+    - from: config
+      to: workbench/config
+      reverse: true
+    - from: public
+      to: workbench/public
+      reverse: true
+    - from: storage
+      to: workbench/storage
+      reverse: true
