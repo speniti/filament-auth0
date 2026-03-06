@@ -1,2 +1,5 @@
 .env
 .env.dusk
+/config/
+/public/
+/storage/
